@@ -17,8 +17,15 @@
     text-decoration: none;
     transition: .25s all;
 
-    &:hover {
+    &:hover,
+    &:active,
+    &:focus {
       background-color: $color-btn-primary-hover;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: $color-btn-primary-disabled;
     }
 
     span {

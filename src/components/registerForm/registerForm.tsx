@@ -5,6 +5,9 @@ import type { FieldValues } from 'react-hook-form';
 
 import { Input } from 'components/input/input';
 
+import type { ErrorResponse } from './ErrorResponse';
+import type { RegistrationApiResponse } from './RegistrationApiResponse';
+
 export const RegisterForm: FC = () => {
   const { register, handleSubmit, reset } = useForm<FieldValues>({
     defaultValues: {
@@ -20,29 +23,24 @@ export const RegisterForm: FC = () => {
     name: '',
     email: '',
     password: '',
-    terms: false,
+    terms: '',
     succesfulSubmit: false,
   });
 
-  const defineErrorMessages = (errors: any) => {
+  const defineErrorMessages = (errors?: ErrorResponse) => {
     setErrorMessages(prevState => ({
       ...prevState,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      name: errors?.name?.message,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      email: errors?.email?.message,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      password: errors?.password?.message,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      terms: errors?.terms?.message,
+      name: errors?.name?.message ?? '',
+      email: errors?.email?.message ?? '',
+      password: errors?.password?.message ?? '',
+      terms: errors?.terms?.message ?? '',
     }));
   };
 
-  const setSuccesfulSubmit = (bool: boolean) => {
+  const toggleSuccesfulSubmit = () => {
     setErrorMessages(prevState => ({
       ...prevState,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      succesfulSubmit: bool,
+      succesfulSubmit: !prevState.succesfulSubmit,
     }));
   };
 
@@ -55,17 +53,15 @@ export const RegisterForm: FC = () => {
 
     void fetch('api/registration', requestOptions)
       .then(async response => response.json())
-      .then(res => {
+      .then((res: RegistrationApiResponse) => {
         // console.log(res);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         defineErrorMessages(res.errors);
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (res.message === 'Successful registration') {
-          setSuccesfulSubmit(true);
+          toggleSuccesfulSubmit();
 
           setTimeout(() => {
-            setSuccesfulSubmit(false);
+            toggleSuccesfulSubmit();
             reset();
           }, 3000);
         }
@@ -73,7 +69,7 @@ export const RegisterForm: FC = () => {
   };
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-console
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(data => formSubmit(data))}>
       <h1>Get started in minutes</h1>
       <p className="form-text">
@@ -99,6 +95,7 @@ export const RegisterForm: FC = () => {
         <Input id="confirm_password" label="Confirm Password" register={register} type="password" />
 
         <div className="checkbox-wrapper">
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <input {...register('terms')} id="terms" type="checkbox" />
           <span className="checkmark" />
           <label htmlFor="terms">
@@ -113,7 +110,7 @@ export const RegisterForm: FC = () => {
         )}
       </fieldset>
 
-      <button className="button" type="submit">
+      <button className="button" disabled={errorMessages.succesfulSubmit} type="submit">
         Register
       </button>
     </form>
