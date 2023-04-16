@@ -1,0 +1,59 @@
+@import '../wrapper';
+
+form {
+  width: 100%;
+  max-width: 92%;
+  margin: 25px auto 0 auto;
+  padding: 16px;
+  background: #fff;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-text {
+  margin-top: 14px;
+}
+
+.sign-in-box {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3px;
+  font-family: $font-secondary;
+
+  a,
+  p {
+    font-weight: 400;
+  }
+}
+
+@media screen and (min-width: 540px) {
+  form {
+    max-width: 496px;
+    margin: 37px auto 0 auto;
+    padding: 36px 36px 28px 36px;
+  }
+
+  body {
+    background-image: url('../../img/squares.svg');
+    background-position: right top 64px;
+    background-repeat: no-repeat;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  body {
+    background-position: right 100px top 64px;
+  }
+}
+
+@media screen and (min-width: 2000px) {
+  body {
+    background-position: right 150px top 64px;
+    background-size: 600px;
+  }
+}

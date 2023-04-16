@@ -1,0 +1,33 @@
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 700;
+    padding: 14px;
+    min-width: 100%;
+    width: -moz-fit-content;
+    width: fit-content;
+    cursor: pointer;
+    border: 0;
+    border-radius: 10px;
+    background-color: $color-btn-primary;
+    text-decoration: none;
+    transition: .25s all;
+
+    &:hover {
+      background-color: $color-btn-primary-hover;
+    }
+
+    span {
+      font: inherit;
+    }
+}
+
+@media screen and (min-width: 401px) {
+  .button {
+    min-width: 350px;
+  }
+}
